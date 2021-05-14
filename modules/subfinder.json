@@ -1,5 +1,12 @@
-[{
-	"command":"/home/op/go/bin/subfinder -silent -d _target_ -o _output_/_target_",
-	"ext":"txt",
-	"threads":"3"
-}]
+[
+	{
+		"command":"/home/op/go/bin/subfinder -silent -d _target_ -o _output_/_target_",
+		"ext":"txt",
+		"threads":"3"
+	},
+	{
+		"command":"/home/op/go/bin/subfinder -silent -d _target_ -o _output_/_target_",
+		"ext":"",
+		"threads":"3"
+	}
+]
