@@ -5,8 +5,8 @@
 		"threads":"3"
 	},
 	{
-		"command":"/home/op/go/bin/subfinder -silent -d _target_ -o _output_/_target_",
-		"ext":"",
+		"command":"/home/op/go/bin/subfinder -silent -dL input -oD _output_/",
+		"ext":"dir",
 		"threads":"3"
 	}
 ]
