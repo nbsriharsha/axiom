@@ -225,7 +225,7 @@ merge_output() {
         
         if [[ "$command" =~ "_target_" ]]; then
             cp -r $tmp/output/* $tmp/merge
-            rm -rf "$outfile"
+            # rm -rf "$outfile"
             mv $tmp/merge "$outfile"
         else
            mkdir "$tmp/merge/output/"
@@ -262,7 +262,7 @@ merge_output() {
           done
 
 
-           rm -rf "$outfile"
+        #    rm -rf "$outfile"
            mv $tmp/merge/output "$outfile"
         fi
         if [[ "$module" == "gowitness" ]]; then
