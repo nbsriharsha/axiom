@@ -233,7 +233,7 @@ merge_output() {
            for pathname in `find . -type f -follow -print`; do
 
             # create destination pathname
-            dest="$outfile/${pathname#*/*/}"
+            dest="$outfile/${pathname#*/*/*/}"
             dir=`dirname $dest`
 
             # create directories
