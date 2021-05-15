@@ -194,9 +194,9 @@ split_file() {
 
 
 merge_output() {
-    if [[ "$anew" != "true" ]];  then
-        # rm -rf "$outfile"
-    fi
+    # if [[ "$anew" != "true" ]];  then
+    #     # rm -rf "$outfile"
+    # fi
     if [[ "$ext" == "txt" ]]; then
         echo "Mode set to txt.. Sorting unique."
         touch "$tmp/output/place"
