@@ -195,7 +195,7 @@ split_file() {
 
 merge_output() {
     if [[ "$anew" != "true" ]];  then
-        rm -rf "$outfile"
+        # rm -rf "$outfile"
     fi
     if [[ "$ext" == "txt" ]]; then
         echo "Mode set to txt.. Sorting unique."
