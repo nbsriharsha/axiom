@@ -271,6 +271,7 @@ merge_output() {
             $interlace_cmd -c "axiom-scp _target_:$scan_dir/gowitness.sqlite3 $tmp/dbs/_target_.sqlite3 --cache -F=$sshconfig>> /dev/null"
             echo "Merging databases..."
             gowitness merge --input-path $tmp/ -o gowitness.sqlite3
+            mv gowitness.sqlite3 $outfile
             echo -e "${Green}RUN: '${Blue}gowitness -D gowitness.sqlite3 -P screenshots report serve${Color_Off}' for reporting"
         fi
          if [[ "$module" == "naabu-nmap" ]]; then
