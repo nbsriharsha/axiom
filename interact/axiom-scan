@@ -228,12 +228,12 @@ merge_output() {
             # rm -rf "$outfile"
             mv $tmp/merge "$outfile"
         else
-           #mkdir "$tmp/merge/output/"
+           mkdir "$tmp/merge/output/"
            cd $tmp/output
            for pathname in `find . -type f -follow -print`; do
 
             # create destination pathname
-            dest="$outfile/${pathname#*/*/*/}"
+            dest="$tmp/merge/${pathname#*/*/}"
             dir=`dirname $dest`
 
             # create directories
@@ -260,8 +260,11 @@ merge_output() {
             done
             cp "$pathname" "$dest"
           done
+          
         #    rm -rf "$outfile"
-        #    mv $tmp/merge/output "$outfile"
+           cd $start
+           mv $tmp/merge/output/* "$outfile"
+           
         fi
         if [[ "$module" == "gowitness" ]]; then
             echo "Downloading gowitness databases..."
@@ -274,7 +277,7 @@ merge_output() {
         fi
          if [[ "$module" == "naabu-nmap" ]]; then
             echo "Merging naabu and nmap output"
-            cat $outfile/*.txt | sort -u > $outfile/final_naabu.txt
+            cat $outfile/naabu*.txt | sort -u > $outfile/final_naabu.txt
             echo "Merging Nmap XML output..."
             "$AXIOM_PATH/interact/merge-xml.py" -d "$outfile" -o "$outfile/final_nmap.xml" >> /dev/null
             rm -rf $outfile/naabu*
