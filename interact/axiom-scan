@@ -228,12 +228,12 @@ merge_output() {
             # rm -rf "$outfile"
             mv $tmp/merge "$outfile"
         else
-           #mkdir "$tmp/merge/output/"
+           mkdir "$tmp/merge/output/"
            cd $tmp/output
            for pathname in `find . -type f -follow -print`; do
 
             # create destination pathname
-            dest="$outfile/${pathname#*/*/*/}"
+            dest="$tmp/merge/${pathname#*/*/}"
             dir=`dirname $dest`
 
             # create directories
@@ -260,8 +260,11 @@ merge_output() {
             done
             cp "$pathname" "$dest"
           done
-        #    rm -rf "$outfile"
-        #    mv $tmp/merge/output "$outfile"
+
+
+           rm -rf "$outfile"
+           cd "$start"
+           mv $tmp/merge/output "$outfile"
         fi
         if [[ "$module" == "gowitness" ]]; then
             echo "Downloading gowitness databases..."
