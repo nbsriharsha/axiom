@@ -56,7 +56,7 @@ create_instance() {
 
 	#location="$(az account list-locations | jq -r ".[] | select(.name==\"$region\") | .displayName")"
 	location="$region"
-	az vm create --resource-group axiom --name "$name" --image "$image_id" --location "$location" --size "$size_slug" --tags "$name"=True >/dev/null 2>&1 
+	az vm create --resource-group axiom --name "$name" --image "$image_id" --location "$location" --size "$size_slug" --tags "$name"=True --admin-username op >/dev/null 2>&1 
 
 	az vm open-port --resource-group axiom --name "$name" --port 0-65535 >/dev/null 2>&1 
 	sleep 10
@@ -245,9 +245,9 @@ query_instances_cache() {
 generate_sshconfig() {
 	boxes="$(az vm list-ip-addresses)"
 	echo -n "" > $AXIOM_PATH/.sshconfig.new
-
-	echo -e "Host *\n\tControlMaster auto\n\tControlPath  ~/.ssh/sockets/%r@%h-%p\n\tControlPersist 600" >> $AXIOM_PATH/.sshconfig.new
 	echo -e "\tServerAliveInterval 60\n" >> $AXIOM_PATH/.sshconfig.new
+  echo -e "\tServerAliveCountMax 60\n" >> $AXIOM_PATH/.sshconfig.new
+
     
 	for name in $(echo "$boxes" | jq -r '.[].virtualMachine.name')
 	do 

@@ -14,7 +14,7 @@ cat << EOF
   ░   ▒    ░    ░   ▒ ░░ ░ ░ ▒  ░      ░
       ░  ░ ░    ░   ░      ░ ░         ░
 
-The Dynamic Infrastructure Framework - @pry0cc
+The Dynamic Infrastructure Framework for Everybody - by @pry0cc & @0xtavian
 
 Sponsored by SecurityTrails
 Sign up during bug bounty hunter month now!: https://securitytrails.com/bug-bounty-hunters-toolkit?referral_code=axiom
@@ -67,30 +67,16 @@ if [ $BASEOS == "Linux" ]; then
         sudo pacman -S fzf packer jq doctl mmv
     elif [ $OS == "Ubuntu" ] || [ $OS == "Debian" ] || [ $OS == "Linuxmint" ] || [ $OS == "Parrot" ] || [ $OS == "Kali" ]; then
         echo -e "${Blue}Installing other repo deps...${Color_Off}"
-        sudo apt-get update && sudo apt-get install mmv fzf git ruby python3-pip curl net-tools unzip xsltproc bc uuid-runtime rsync
+        sudo apt-get update && sudo apt-get install git ruby python3-pip curl net-tools unzip xsltproc bc rsync -y 
         echo -e "${Blue}Installing jq...${Color_Off}"
-        sudo wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && sudo chmod +x /usr/bin/jq
+        sudo wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && sudo chmod +x /usr/bin/jq 
         echo -e "${Blue}Installing packer...${Color_Off}"
-        wget -O /tmp/packer.zip https://releases.hashicorp.com/packer/1.5.6/packer_1.5.6_linux_amd64.zip && cd /tmp/ && unzip packer.zip && sudo mv packer /usr/bin/ && rm /tmp/packer.zip
+        wget -O /tmp/packer.zip https://releases.hashicorp.com/packer/1.5.6/packer_1.5.6_linux_amd64.zip && cd /tmp/ && unzip packer.zip && sudo mv packer /usr/bin/ && rm /tmp/packer.zip 
         echo -e "${Blue}Installing Interlace...${Color_Off}"
-        git clone https://github.com/codingo/Interlace.git /tmp/interlace
-        cd /tmp/interlace && sudo python3 setup.py install
-        echo -e "${Blue}Installing doctl...${Color_Off}"
-        wget -O /tmp/doctl.tar.gz https://github.com/digitalocean/doctl/releases/download/v1.45.0/doctl-1.45.0-linux-amd64.tar.gz && tar -xvzf /tmp/doctl.tar.gz && sudo mv doctl /usr/bin/doctl && rm /tmp/doctl.tar.gz
-        echo -e "${Blue}Installing ibmcloud cli...${Color_Off}"
-        curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
-        echo -e "${Blue}Installing azure az...${Color_Off}"
-        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        git clone https://github.com/codingo/Interlace.git /tmp/interlace  
+        cd /tmp/interlace && sudo python3 setup.py install 
         echo -e "${Blue}Installing gowitness...${Color_Off}"
-        sudo wget -O /usr/bin/gowitness https://github.com/sensepost/gowitness/releases/download/2.2.0/gowitness-2.2.0-linux-amd64 && sudo chmod +x /usr/bin/gowitness
-        echo -e "${Blue}Increasing ulimit, a reboot is required to take effect ...${Color_Off}"
-        sudo bash -c 'echo "DefaultLimitNOFILE=655350" >> /etc/systemd/user.conf'
-        sudo bash -c 'echo "DefaultLimitNOFILE=655350" >> /etc/systemd/system.conf'
-        echo "$USER hard nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        echo "$USER soft nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        echo "root hard nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        echo "root soft nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        mkdir -p "${HOME}/.ssh/sockets"
+        sudo wget -O /usr/bin/gowitness https://github.com/sensepost/gowitness/releases/download/2.3.6/gowitness-2.3.6-linux-amd64 && sudo chmod +x /usr/bin/gowitness 
 
 	elif [ $OS == "Fedora" ]; then
       	echo -e "${Blue}Installing other repo deps...${Color_Off}"
@@ -101,106 +87,112 @@ if [ $BASEOS == "Linux" ]; then
 		    wget -O /tmp/packer.zip https://releases.hashicorp.com/packer/1.5.6/packer_1.5.6_linux_amd64.zip && cd /tmp/ && unzip packer.zip && sudo mv packer /usr/bin/ && rm /tmp/packer.zip
 		    echo -e "${Blue}Installing doctl...${Color_Off}"
 		    wget -O /tmp/doctl.tar.gz https://github.com/digitalocean/doctl/releases/download/v1.45.0/doctl-1.45.0-linux-amd64.tar.gz && tar -xvzf /tmp/doctl.tar.gz && sudo mv doctl /usr/bin/doctl && rm /tmp/doctl.tar.gz
-            echo -e "${Blue}Installing gowitness...${Color_Off}"
-            sudo wget -O /usr/bin/gowitness https://github.com/sensepost/gowitness/releases/download/2.2.0/gowitness-2.2.0-linux-amd64 && sudo chmod +x /usr/bin/gowitness
-	elif [ $OS == "UbuntuWSL" ]; then
+        echo -e "${Blue}Installing gowitness...${Color_Off}"
+        sudo wget -O /usr/bin/gowitness https://github.com/sensepost/gowitness/releases/download/2.3.6/gowitness-2.3.6-linux-amd64 && sudo chmod +x /usr/bin/gowitness 
+
+  elif [ $OS == "UbuntuWSL" ]; then
         echo -e "${Blue}Installing other repo deps...${Color_Off}"
-        sudo apt-get update && sudo apt-get install mmv fzf git ruby python3-pip curl net-tools unzip xsltproc bc uuid-runtime
+        sudo apt-get update && sudo apt-get install git ruby python3-pip curl net-tools unzip xsltproc bc rsync
         echo -e "${Blue}Installing jq...${Color_Off}"
         sudo wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && sudo chmod +x /usr/bin/jq
         echo -e "${Blue}Installing packer...${Color_Off}"
         wget -O /tmp/packer.zip https://releases.hashicorp.com/packer/1.5.6/packer_1.5.6_linux_amd64.zip && cd /tmp/ && unzip packer.zip && sudo mv packer /usr/bin/ && rm /tmp/packer.zip
         echo -e "${Blue}Installing Interlace...${Color_Off}"
-        git clone https://github.com/codingo/Interlace.git /tmp/interlace
-        cd /tmp/interlace && sudo python3 setup.py install
-        echo -e "${Blue}Installing doctl...${Color_Off}"
-        wget -O /tmp/doctl.tar.gz https://github.com/digitalocean/doctl/releases/download/v1.45.0/doctl-1.45.0-linux-amd64.tar.gz && tar -xvzf /tmp/doctl.tar.gz && sudo mv doctl /usr/bin/doctl && rm /tmp/doctl.tar.gz
-        echo -e "${Blue}Installing ibmcloud cli...${Color_Off}"
-        curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
-        echo -e "${Blue}Installing azure az...${Color_Off}"
-        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        git clone https://github.com/codingo/Interlace.git /tmp/interlace 
+        cd /tmp/interlace && sudo python3 setup.py install 
         echo -e "${Blue}Installing gowitness...${Color_Off}"
-        sudo wget -O /usr/bin/gowitness https://github.com/sensepost/gowitness/releases/download/2.2.0/gowitness-2.2.0-linux-amd64 && sudo chmod +x /usr/bin/gowitness
-        echo -e "${Blue}Increasing ulimit, a reboot is required to take effect ...${Color_Off}"
-        sudo bash -c 'echo "DefaultLimitNOFILE=655350" >> /etc/systemd/user.conf'
-        sudo bash -c 'echo "DefaultLimitNOFILE=655350" >> /etc/systemd/system.conf'
-        echo "$USER hard nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        echo "$USER soft nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        echo "root hard nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        echo "root soft nofile 655350" | sudo tee -a /etc/security/limits.conf > /dev/null
-        mkdir -p "${HOME}/.ssh/sockets"
-
+        sudo wget -O /usr/bin/gowitness https://github.com/sensepost/gowitness/releases/download/2.3.6/gowitness-2.3.6-linux-amd64 && sudo chmod +x /usr/bin/gowitness 
 	fi
 fi
 
 
 if [ $BASEOS == "Mac" ]; then
-         whereis brew
-  if [ ! $? -eq 0 ] || [[ ! -z ${AXIOM_FORCEBREW+x} ]]; then
-         echo -e "${Blue}Installing brew...${Color_Off}"
+         echo -e "${Blue}Installing Brew...${Color_Off}"
          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  else
-         echo -e "${Blue}Checking for brew... already installed, skipping installation.${Color_Off}"
-         echo -e "${Blue}    Note: You can force brew installation by running${Color_Off}"
-         echo -e '    $ AXIOM_FORCEBREW=yes $HOME/.axiom/interact/axiom-configure'
-  fi
-         echo -e "${Blue}Installing doctl...${Color_Off}"
-         brew install doctl
+         echo -e 'Setting permissions'
+         sudo chown -R $(whoami) /usr/local/Homebrew 
+         sudo chown -R $(whoami) /usr/local/var/homebrew
+         sudo chown -R $(whoami) /usr/local/etc/bash_completion.d /usr/local/lib/pkgconfig /usr/local/share/aclocal /usr/local/share/doc /usr/local/share/info /usr/local/share/locale /usr/local/share/man /usr/local/share/man/man1 /usr/local/share/man/man3 /usr/local/share/man/man5 /usr/local/share/man/man7
+         sudo chown -R $(whoami) /usr/local/share/zsh /usr/local/share/zsh/site-functions
+         chmod u+w /usr/local/share/zsh /usr/local/share/zsh/site-functions
+         chmod u+w /usr/local/etc/bash_completion.d /usr/local/lib/pkgconfig /usr/local/share/aclocal /usr/local/share/doc /usr/local/share/info /usr/local/share/locale /usr/local/share/man /usr/local/share/man/man1 /usr/local/share/man/man3 /usr/local/share/man/man5 /usr/local/share/man/man7
+         echo -e "${Blue}Installing wget...${Color_Off}"
+         brew install wget
          echo -e "${Blue}Installing go...${Color_Off}"
          brew install golang
-         echo -e "${Blue}Installing ibmcloud cli...${Color_Off}"
-         curl -fsSL https://clis.cloud.ibm.com/install/osx | sh
+         mkdir -p "${HOME}/go"
+         export GOPATH=$HOME/go
+         echo -e "${Green}You're running ZSH! Installing Axiom to \$PATH...${Color_Off}"
+         echo "export PATH=\"\$PATH:\$HOME/.axiom/interact\"" >>~/.zshrc 
          echo -e "${Blue}Installing jq...${Color_Off}"
          brew install jq
-         echo -e "${Blue}Installing coreutils...${Color_Off}"
-         brew install coreutils
-         echo -e "${Blue}Installing packer...${Color_Off}"
-         mkdir -p $(go env GOPATH)/src/github.com/hashicorp && cd $_
-         sudo rm -r packer/ ; git clone https://github.com/hashicorp/packer.git
          echo -e "${Blue}Installing Python3...${Color_Off}"
          brew install python3
-         echo -e "${Blue}Installing MMV...${Color_Off}"
-         brew install mmv
-         cd packer
-         make dev
-         export PATH=$PATH:$(go env GOPATH)/bin
-         source ~/.bash_profile
-         mkdir -p "${HOME}/.ssh/sockets"
+         echo -e "${Blue}Installing Interlace...${Color_Off}"
+         git clone https://github.com/codingo/Interlace.git /tmp/interlace  
+         cd /tmp/interlace && sudo python3 setup.py install 
+         echo -e "${Blue}Installing gowitness...${Color_Off}"
+         wget -O /usr/local/bin/ https://github.com/sensepost/gowitness/releases/download/2.3.6/gowitness-2.3.6-darwin-amd64
+         echo -e "${Blue}Installing packer...${Color_Off}"
+         brew tap hashicorp/tap
+         brew install hashicorp/tap/packer
+         brew upgrade hashicorp/tap/packer
+         source ${HOME}/.zshrc
+         SHELL=$(which zsh)
 fi
 
-
-#install go
-if ! [ -x "$(command -v go)" ]; then
-       echo -e "${Blue}It looks like go is not installed, would you like to install it now${Color_Off}"
-       PS3="Please select an option : "
-       choices=("yes" "no")
-       select choice in "${choices[@]}"; do
-       case $choice in
-       yes)
-
-       echo -e "${Blue}Installing Golang${Color_Off}"
-       wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
-       sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz 
-       rm go1.16.3.linux-amd64.tar.gz
-       mkdir -p "${HOME}/go"
-       export GOROOT=/usr/local/go/
-       export GOPATH=$HOME/go
-       export PATH=$GOPATH/bin:$GOROOT/bin:$PATH    
-       echo "export GOROOT=/usr/local/go/" >> ${HOME}/.bash_profile
-       echo "export GOPATH=\$HOME/go" >> ${HOME}/.bash_profile
-       echo "export PATH=\$GOPATH/bin:\$GOROOT/bin:\$PATH" >> ${HOME}/.bash_profile
-       source ${HOME}/.bash_profile
-       sleep 1
-       break
-       ;;
-       no)
-       echo -e "${Red}Please install go after running axiom-build"
-       sleep 1
-       break
-       ;;
-   esac 
-   done
+if [ $BASEOS == "Linux" ]; then
+# Pick your shell
+echo -e "${Blue}Would you like to use Bash or Oh My Zsh? ${Color_Off}"
+ PS3="Please select an option : "
+  choices=("bash" "zsh")
+  select choice in "${choices[@]}"; do
+   case $choice in
+   bash)
+    echo -e "${Blue}Installing Golang${Color_Off}"
+    wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz 
+    rm go1.16.3.linux-amd64.tar.gz
+    mkdir -p "${HOME}/go"
+    export GOPATH=$HOME/go
+    export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH    
+    echo "export GOPATH=\$HOME/go" >> ${HOME}/.bashrc
+    echo "export PATH=\$GOPATH/bin:/usr/local/go/bin:$PATH" >> ${HOME}/.bashrc
+    source ${HOME}/.bashrc
+    SHELL=$(which bash)
+    echo -e "${Green}You're running Bash! Installing Axiom to \$PATH...${Color_Off}"
+    echo "export PATH=\"\$PATH:\$HOME/.axiom/interact\"" >>~/.bashrc
+    echo "[[ -f ~/.bashrc ]] && . ~/.bashrc" >> ${HOME}/.bash_profile
+    source ~/.bashrc 
+  break
+   ;;
+  zsh)
+    sudo apt install zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    echo -e "${Blue}Installing Golang${Color_Off}"
+    wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz 
+    rm go1.16.3.linux-amd64.tar.gz
+    mkdir -p "${HOME}/go"
+    export GOPATH=$HOME/go
+    export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+    echo "export GOPATH=\$HOME/go" >>~/.zshrc
+    echo "export PATH=\$GOPATH/bin:/usr/local/go/bin:$PATH" >>~/.zshrc
+    echo -e "${Green}You're running ZSH! Installing Axiom to \$PATH...${Color_Off}"
+    echo "export PATH=\"\$PATH:\$HOME/.axiom/interact\"" >>~/.zshrc 
+    echo "source $HOME/.axiom/functions/autocomplete.zsh" >>~/.zshrc 
+    source ${HOME}/.zshrc
+    SHELL=$(which zsh)
+   break
+   ;;
+esac
+done
 fi
+
+#install gee
+
+echo "Updating gee https://github.com/hahwul/gee"
+GO111MODULE=on go get -v github.com/hahwul/gee
 
 
 if [ ! -d $AXIOM_PATH ]; then
@@ -250,32 +242,10 @@ else
     fi
 fi
 
-if [ "$SHELL" == "/usr/local/bin/zsh" ] || [ "$SHELL" == "/usr/bin/zsh" ] || [ "$SHELL" == "/bin/zsh" ]; then
-    echo -e "${Green}You're running ZSH! Installing Axiom to \$PATH...${Color_Off}"
-    echo "export PATH=\"\$PATH:\$HOME/.axiom/interact\"" >>~/.zshrc
-    echo "source $HOME/.axiom/functions/autocomplete.zsh" >>~/.zshrc
-    echo "compdef _axiom-ssh axiom-rm" >>~/.zshrc
-    echo "compdef _axiom-ssh axiom-ssh" >>~/.zshrc
-    echo "compdef _axiom-ssh axiom-select" >>~/.zshrc
-    echo "compdef _axiom-ssh axiom-backup" >>~/.zshrc
-    echo "compdef _axiom-ssh axiom-vpn" >>~/.zshrc
-    echo "compdef _axiom-restore axiom-restore" >>~/.zshrc
-    echo "compdef _axiom-deploy axiom-deploy" >>~/.zshrc
-  source ~/.zshrc
-
-elif [ "$SHELL" == "/bin/bash" ]; then
-    echo -e "${Green}You're running Bash! Installing Axiom to \$PATH...${Color_Off}"
-    echo "export PATH=\"\$PATH:\$HOME/.axiom/interact\"" >>~/.bashrc
-  source ~/.bashrc
-else
-    echo -e "${Red}I don't have a predefined setup for your shell!"
-    echo "Please add $AXIOM_PATH/interact to your \$PATH! ${Color_Off}"
-    echo "(export PATH=\"\$PATH:$HOME/.axiom/interact\")"
-fi
-
 export PATH="$PATH:$HOME/.axiom/interact"
 
 echo -e "${BWhite}Beginning first packer build...${Color_Off}"
 cd $AXIOM_PATH/
 $AXIOM_PATH/interact/axiom-build
 cd
+echo -e "${BWhite}You may need to restart your shell: $SHELL${Color_Off}"

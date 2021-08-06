@@ -47,15 +47,13 @@ Our third provider for axiom! Please use [this link](https://www.linode.com/?r=2
 
 ## Installation - Easy Install
 
-You will also need to install the newest versions of all packages `sudo apt dist-upgrade` and curl, which is not installed by default on Ubuntu 20.04, if you get a "command not found" error, run `sudo apt update && sudo apt install curl`.
-<br>
-<br> Run the following curl command, as your standard user, not as root.
-
+You should use an OS that supports our [easy install](https://github.com/pry0cc/axiom#operating-systems-supported). <br>
+For Linux systems you will also need to install the newest versions of all packages beforehand `sudo apt dist-upgrade`. <br>
 ```
 bash <(curl -s https://raw.githubusercontent.com/pry0cc/axiom/master/interact/axiom-configure)
 ```
 
-If you have any problems with this installer, please refer to [Installation](https://github.com/pry0cc/axiom/wiki/0-Installation).
+If you have any problems with this installer, or if using an unsupported OS please refer to [Installation](https://github.com/pry0cc/axiom/wiki/0-Installation).
 
 ## Demo
 In this demo (sped up out of respect for your time ;) ), we show how easy it is to initialize and ssh into a new instance.
@@ -85,7 +83,7 @@ We are lucky enough to be sponsored by the awesome SecurityTrails! Sign up for y
 | Kali       |    Yes    | Yes           | Kali 2020.4   |
 | Debian     |    Yes    | Yes           | Debian 10     |
 | Windows    |    Yes    | Yes           | WSL w/ Ubuntu |
-| MacOS      |    Yes    | No            | MacOS 10.15   |
+| MacOS      |    Yes    | Yes           | MacOS 11.4    |
 | Arch Linux |    Yes    | No            | Yes           |
 
 
@@ -111,6 +109,7 @@ The logo was made by our amazing [s0md3v](https://twitter.com/s0md3v)! Thank you
 - [x]  dnsvalidator
 - [x]  docker
 - [x]  fbrobe
+- [x]  feroxbuster
 - [x]  ffuf
 - [x]  gau
 - [x]  getjs
@@ -149,4 +148,4 @@ The logo was made by our amazing [s0md3v](https://twitter.com/s0md3v)! Thank you
 - [x]  zdns
 - [x]  zmap
 
-And many more! Do you want to add a package to axiom? [Let me know!](https://github.com/pry0cc/axiom/issues)
+And many more! Do you want to add a package to axiom? [Read the wiki!](https://github.com/pry0cc/axiom/wiki/Adding-Simple-Modules)

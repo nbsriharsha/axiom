@@ -245,8 +245,9 @@ generate_sshconfig() {
 	droplets="$(instances)"
 	echo -n "" > $AXIOM_PATH/.sshconfig.new
 
-	echo -e "Host *\n\tControlMaster auto\n\tControlPath  ~/.ssh/sockets/%r@%h-%p\n\tControlPersist 600" >> $AXIOM_PATH/.sshconfig.new
 	echo -e "\tServerAliveInterval 60\n" >> $AXIOM_PATH/.sshconfig.new
+  echo -e "\tServerAliveCountMax 60\n" >> $AXIOM_PATH/.sshconfig.new
+
 
 	for name in $(echo "$droplets" | jq -r '.[].name')
 	do 
@@ -269,7 +270,7 @@ create_instance() {
 	region="$4"
 	boot_script="$5"
 
-	doctl compute droplet create "$name" --image "$image_id" --size "$size" --region "$region" --wait --user-data-file "$boot_script" 2>&1 >>/dev/null 
+	doctl compute droplet create "$name" --image "$image_id" --size "$size" --region "$region" --wait --enable-ipv6 --user-data-file "$boot_script" 2>&1 >>/dev/null 
 	sleep 10
 }
 

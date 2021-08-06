@@ -14,8 +14,6 @@ just_generate=false
 
 args="-F $ssh_config"
 
-mkdir -p $HOME/.ssh/sockets
-
 for var in "$@"
 do
     if [ $var == "--tmux" ]

@@ -88,13 +88,12 @@ instance_exists() {
 
 list_regions() {
 #     doctl compute region list
-      ibmcloud regions -q
+      ibmcloud sl vs options | grep -E '^datacenter' --color=never | tr -s ' ' | cut -d ' ' -f 2
 }
-
 
 regions() {
 #    doctl compute region list -o json
-     ibmcloud regions -q --output json
+     ibmcloud sl vs options | grep -E '^datacenter' --color=never | tr -s ' ' | cut -d ' ' -f 2
 }
 
 instance_sizes() {
@@ -246,8 +245,8 @@ generate_sshconfig() {
 	droplets="$(instances)"
 	echo -n "" > $AXIOM_PATH/.sshconfig.new
   
-  echo -e "Host *\n\tControlMaster auto\n\tControlPath  ~/.ssh/sockets/%r@%h-%p\n\tControlPersist 600" >> $AXIOM_PATH/.sshconfig.new
 	echo -e "\tServerAliveInterval 60\n" >> $AXIOM_PATH/.sshconfig.new
+  echo -e "\tServerAliveCountMax 60\n" >> $AXIOM_PATH/.sshconfig.new
 
 	for name in $(echo "$droplets" | jq -r '.[].hostname')
 	do 
