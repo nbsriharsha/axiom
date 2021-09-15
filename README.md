@@ -6,6 +6,8 @@
 [![License](https://img.shields.io/badge/license-MIT-_red.svg)](https://opensource.org/licenses/MIT)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/pry0cc/axiom/issues)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/pry0cc.svg?logo=twitter)](https://twitter.com/pry0cc)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/0xtavian.svg?logo=twitter)](https://twitter.com/0xtavian)
+
 
 <p align="center">
 <a href="https://github.com/pry0cc/axiom/wiki" target="_blank"> <img src="https://github.com/projectdiscovery/nuclei/raw/367d12700e252ec7066c79b1b97a6427544d931c/static/read-the-docs-button.png" height="42px"/></a>
@@ -44,6 +46,9 @@ The original and best supported provider for Axiom is Digital Ocean! If you're s
 ## Linode $20 Free Credit
 Our third provider for axiom! Please use [this link](https://www.linode.com/?r=23ac507c0943da0c44ce1950fc7e41217802df90) for $20 free credit on Linode :) 
 
+## Installation - Docker
+
+`docker exec -it $(docker run -d -it ubuntu) sh -c "apt update && apt install git -y && git clone https://github.com/pry0cc/axiom ~/.axiom/ && cd && .axiom/interact/axiom-configure"`
 
 ## Installation - Easy Install
 

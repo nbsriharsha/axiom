@@ -38,25 +38,24 @@ case $BASEOS in
 esac
 
 
-if [ $BASEOS == "Linux" ]; then
+if [[ $BASEOS == "Linux" ]]; then
  if $(uname -a | grep -qi "Microsoft"); then
   OS="UbuntuWSL"
  else
- if ! command -v lsb_release &> /dev/null; then
-  echo "lsb_release could not be found, unable to determine your distribution"
-  echo "If you are using Arch, please get lsb_release from AUR"
-  exit 1
+   OS=$(lsb_release -i | awk '{ print $3 }')
+   if ! command -v lsb_release &> /dev/null; then
+            OS="unknown-Linux"
+            BASEOS="Linux"
  fi
-  OS=$(lsb_release -i | awk '{ print $3 }')
  fi
- if [ $OS == "Arch" ] || [ $OS == "ManjaroLinux" ]; then
+ if [[ $OS == "Arch" ]] || [[ $OS == "ManjaroLinux" ]]; then
   echo "Needs Conversation"
-   elif [ $OS == "Ubuntu" ] || [ $OS == "Debian" ] || [ $OS == "Linuxmint" ] || [ $OS == "Parrot" ] || [ $OS == "Kali" ]; then
+   elif [[ $OS == "Ubuntu" ]] || [[ $OS == "Debian" ]] || [[ $OS == "Linuxmint" ]] || [[ $OS == "Parrot" ]] || [[ $OS == "Kali" ]] || [[ $OS == "unknown-Linux" ]]; then
      if ! [ -x "$(command -v ibmcloud)" ]; then
       echo -e "${Blue}Installing ibmcloud-cli...${Color_Off}"
       curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
      fi
-elif [ $OS == "Fedora" ]; then
+elif [[ $OS == "Fedora" ]]; then
   echo "Needs Conversation"
 	 elif [ $OS == "UbuntuWSL" ]; then
      if ! [ -x "$(command -v ibmcloud)" ]; then
@@ -66,7 +65,7 @@ elif [ $OS == "Fedora" ]; then
  fi
 fi
 
-if [ $BASEOS == "Mac" ]; then
+if [[ $BASEOS == "Mac" ]]; then
  whereis brew
   if [ ! $? -eq 0 ] || [[ ! -z ${AXIOM_FORCEBREW+x} ]]; then
    echo -e "${Blue}Installing brew...${Color_Off}"
@@ -82,19 +81,13 @@ if [ $BASEOS == "Mac" ]; then
    fi
 fi
 
-
 # packer check
 if [[ ! -f "$HOME/.packer.d/plugins/packer-builder-ibmcloud" ]]; then
- echo -e "${Red}It seems that you don't have the packer plugin for ibm cloud?${Color_Off}"
- echo -n -e "${Blue}Would you like me to install it for you? (https://github.com/IBM/packer-plugin-ibmcloud/):\n y/n >> ${Color_Off}"
- read ans
-if [[ "$ans" == "y" ]]; then
+ echo -n -e "${Blue}Installing IBM Cloud Packer Builder (https://github.com/IBM/packer-plugin-ibmcloud/):\n y/n >> ${Color_Off}"
  os="$(uname -s | tr '[:upper:]' '[:lower:]')"
  mkdir -p ~/.packer.d/plugins/
  wget https://github.com/IBM/packer-plugin-ibmcloud/releases/download/v1.0.1/packer-builder-ibmcloud_1.0.1_linux_64-bit.tar.gz -O - | tar -xz -C ~/.packer.d/plugins/
 fi
-fi
-
 
 function getUsernameAPIkey {
 email=$(cat ~/.bluemix/config.json  | grep Owner | cut -d '"' -f 4)
@@ -122,7 +115,7 @@ while [[ "$ibm_cloud_api_key" == "" ]]; do
 	echo -e -n "${Green}Please enter your IBM Cloud API key (required): \n>> ${Color_Off}"
 	read ibm_cloud_api_key
 done
-ibmcloud login --apikey=$ibm_cloud_api_key
+ibmcloud login --apikey=$ibm_cloud_api_key --no-region
 getUsernameAPIkey
 }
 
@@ -185,10 +178,6 @@ echo -e "${BGreen}Saved profile '$title' successfully!${Color_Off}"
 $AXIOM_PATH/interact/axiom-account $title
 }
 
-
-# then prompt for auth choice if account is not authenticated or if 'build' is passed
-loggedin=$(ibmcloud account show --output json | wc -l)
-if [ "$loggedin" -eq "0" ] || [ "$1" == "build" ]; then
 prompt="Choose how to authenticate to IBM Cloud:"
 PS3=$prompt
 types=("SSO" "Username & Password" "API Keys")
@@ -197,14 +186,14 @@ types=("SSO" "Username & Password" "API Keys")
    case $opt in
    "SSO")
      echo "Attempting to authenticate with SSO!"
-     ibmcloud login --sso
+     ibmcloud login --no-region --sso
      getUsernameAPIkey
      specs
      setprofile
      break
      ;;
   "Username & Password")
-     ibmcloud login
+     ibmcloud login --no-region
      specs
      setprofile
      break
@@ -218,4 +207,3 @@ types=("SSO" "Username & Password" "API Keys")
    *) echo "invalid option $REPLY";;
  esac
 done
-fi

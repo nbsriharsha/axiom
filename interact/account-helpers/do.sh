@@ -34,12 +34,24 @@ case $BASEOS in
 *) ;;
 esac
 
+
 echo -e "${Blue}Installing doctl...${Color_Off}"
-if [ $BASEOS == "Mac" ]; then
+if [[ $BASEOS == "Mac" ]]; then
 brew install doctl
-else
-wget -O /tmp/doctl.tar.gz https://github.com/digitalocean/doctl/releases/download/v1.45.0/doctl-1.45.0-linux-amd64.tar.gz && tar -xvzf /tmp/doctl.tar.gz && sudo mv doctl /usr/bin/doctl && rm /tmp/doctl.tar.gz
+elif [[ $BASEOS == "Linux" ]]; then
+OS=$(lsb_release -i | awk '{ print $3 }')
+   if ! command -v lsb_release &> /dev/null; then
+            OS="unknown-Linux"
+            BASEOS="Linux"
+   fi
+   if [[ $OS == "Arch" ]] || [[ $OS == "ManjaroLinux" ]]; then
+      sudo pacman -Syu doctl --noconfirm
+   else
+      wget -O /tmp/doctl.tar.gz https://github.com/digitalocean/doctl/releases/download/v1.45.0/doctl-1.45.0-linux-amd64.tar.gz && tar -xvzf /tmp/doctl.tar.gz && sudo mv doctl /usr/bin/doctl && rm /tmp/doctl.tar.gz
+   fi
 fi
+
+function dosetup(){
 
 echo -e "${BGreen}Sign up for an account using this link for 100\$ free credit: https://m.do.co/c/bd80643300bd\nObtain a personal access token from: https://cloud.digitalocean.com/account/api/tokens${Color_Off}"
 echo -e -n "${Blue}Do you already have a DigitalOcean account? y/n ${Color_Off}"
@@ -47,7 +59,12 @@ read acc
 
 if [[ "$acc" == "n" ]]; then
     echo -e "${Blue}Launching browser with signup page...${Color_Off}"
+    if [ $BASEOS == "Mac" ]; then
+    open "https://m.do.co/c/bd80643300bd"
+    else
+    sudo apt install xdg-utils -y
     xdg-open "https://m.do.co/c/bd80643300bd"
+    fi
 fi
 	
 echo -e -n "${Green}Please enter your token (required): \n>> ${Color_Off}"
@@ -61,7 +78,7 @@ done
 doctl auth init -t "$token" | grep -vi "using token"
 
 echo -e -n "${Green}Autoselecting default region based on ping...${Color_Off}"
-default_region="$(for region in $(doctl compute region list | grep -v 'Slug' | awk '{ print $1 }'); do echo -n "$region,"; ping -c 1 speedtest-$region.digitalocean.com | grep "avg" | awk '{ print $4 }' | tr "/" ' ' | cut -d " " -f 1; done | sort -k2 -t , -n | head -n 1 | cut -d "," -f 1)"
+default_region="$(for region in $(doctl compute region list | grep -v false | grep -v 'Slug' | awk '{ print $1 }'); do echo -n "$region,"; ping -c 1 speedtest-$region.digitalocean.com | grep "avg" | awk '{ print $4 }' | tr "/" ' ' | cut -d " " -f 1; done | sort -k2 -t , -n | head -n 1 | cut -d "," -f 1)"
 
 echo -e -n "${Green}Please enter your default region: (Default '$default_region', press enter) \n>> ${Color_Off}"
 read region
@@ -117,3 +134,7 @@ fi
 echo $data | jq > "$AXIOM_PATH/accounts/$title.json"
 echo -e "${BGreen}Saved profile '$title' successfully!${Color_Off}"
 $AXIOM_PATH/interact/axiom-account $title
+
+}
+
+dosetup
