@@ -44,8 +44,17 @@ esac
 echo -e "${Blue}Installing azure az...${Color_Off}"
 if [ $BASEOS == "Mac" ]; then
 brew update && brew install azure-cli
-else
-curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+elif [ $BASEOS == "Linux" ]; then
+OS=$(lsb_release -i | awk '{ print $3 }')
+   if ! command -v lsb_release &> /dev/null; then
+            OS="unknown-Linux"
+            BASEOS="Linux"
+   fi
+   if [ $OS == "Arch" ] || [ $OS == "ManjaroLinux" ]; then
+      curl -L https://aka.ms/InstallAzureCli | bash
+   else
+      curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+   fi
 fi
 
 echo -e -n "${Green}Please enter your default region: (Default 'eastus', press enter) \n>> ${Color_Off}"
